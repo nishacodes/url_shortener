@@ -11,7 +11,8 @@ Spork.prefork do
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = false
     config.order = "random"
-
+    config.include Capybara::DSL
+    
     config.before :each do
       if Capybara.current_driver == :selenium
         DatabaseCleaner.strategy = :truncation
@@ -35,5 +36,5 @@ end
 Spork.each_run do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
   FactoryGirl.reload
-  include LoginMacros
+  # include LoginMacros
 end

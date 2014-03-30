@@ -23,8 +23,12 @@ end
 gem 'jquery-rails'
 
 group :development, :test do
+  gem 'debugger'
   gem "rspec-rails", "~> 2.13.0"
   gem "factory_girl_rails", "~> 4.2.1"
+  gem 'guard-rspec', '~> 2.5.0'
+  gem 'guard-spork', '~> 1.5.0'
+  gem 'rb-fsevent', '~> 0.9'
 end
 
 group :test do
