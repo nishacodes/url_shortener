@@ -1,8 +1,10 @@
 require 'spec_helper'
 
-describe 'Visiting the root page' do
+describe 'Shortening a URL' do
   before do
     visit new_url_path
+    url = Url.new(original: 'http://www.testing.com/blablabla')
+    fill_in 'Please enter a URL', :with => url.original
   end
 
   it 'displays welcome text' do
@@ -10,9 +12,21 @@ describe 'Visiting the root page' do
   end
 
   it 'submits the given URL to be shortened' do
-    url = Url.create(original: 'http://www.testing.com/blablabla')
-    fill_in 'Please enter a URL', :with => url.original
     click_button 'Submit'
-    expect(page).to have_content("http://nis.ha/#{url.encode}")
+    url = Url.last
+    # debugger
+    expect(page).to have_content("#{url.shortened}")
+  end
+
+  it 'displays a success notice after submitted' do
+    click_button 'Submit'
+    expect(page).to have_content("URL has been shortened!")
+  end
+
+  it 'links to the original URL address' do 
+    click_button 'Submit'
+    url = Url.last
+    find_link(url.shortened)[:href].should == "#{url.original}"
   end
 end
+

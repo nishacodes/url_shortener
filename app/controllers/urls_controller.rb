@@ -42,10 +42,11 @@ class UrlsController < ApplicationController
   def create
     @url = Url.find_or_create_by_original(params[:url][:original])
     code = @url.encode
+    # debugger
     @url.shortened = "http://nis.ha/#{code}"
     respond_to do |format|
       if @url.save
-        format.html { redirect_to @url, notice: 'Url was successfully created.' }
+        format.html { redirect_to @url, notice: 'URL has been shortened!' }
         format.json { render json: @url, status: :created, location: @url }
       else
         format.html { render action: "new" }
